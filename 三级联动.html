@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<select id="province" name="province" onchange="cityChange()">
+    <option value="0">请选择省</option>
+</select>
+<select id="city" name="city" onchange="disChange()">
+    <option value="0">请选择市</option>
+</select>
+<select id="district" name="district">
+    <option value="0">请选择区</option>
+</select>
+
+
+
+<script src="jquery-1.12.4.js"></script>
+<script>
+    var oJson=[{
+        'id': 1,
+        'name': '山东省',
+        'child': [{
+            'id': 101,
+            'name': '青岛市',
+            'child': [
+                {
+                    'id': 1010,
+                    'name': '市北区'
+                },
+                {
+                    'id': 1011,
+                    'name': '市南区'
+                },
+                {
+                    'id': 1013,
+                    'name': '城阳区'
+                },
+                {
+                    'id': 1014,
+                    'name': '四方区'
+                },
+                {
+                    'id': 1015,
+                    'name': '李沧区'
+                },
+                {
+                    'id': 1016,
+                    'name': '崂山区'
+                }
+            ]
+        },{
+            'id':104,
+            'name':'山东的某个市',
+            'child':[
+                {'id':1040,
+                    'name':'山东某1区'},
+                {'id':1041,
+                    'name':'山东某2区'},
+                {'id':1043,
+                    'name':'山东某3区'},
+                {'id':1044,
+                    'name':'山东某4区'},
+                {'id':1045,
+                    'name':'山东某5区'},
+                {'id':1046,
+                    'name':'山东某6区'}
+            ]
+        }]
+    },{
+        'id':2,
+        'name':'广东省',
+        'child':[{
+            'id':102,
+            'name':'深圳市',
+            'child':[
+                {'id':1021,
+                    'name':'罗湖区'},
+                {'id':1022,
+                    'name':'保安区'},
+                {'id':1023,
+                    'name':'福特区'},
+                {'id':1024,
+                    'name':'龙岗区'},
+                {'id':1025,
+                    'name':'松岗区'},
+                {'id':1026,
+                    'name':'蚌岗区'}
+            ]
+        },{
+            'id':103,
+            'name':'潮州市',
+            'child':[
+                {'id':1030,
+                    'name':'潮1区'},
+                {'id':1031,
+                    'name':'潮2区'},
+                {'id':1033,
+                    'name':'潮3区'},
+                {'id':1034,
+                    'name':'潮4区'},
+                {'id':1035,
+                    'name':'潮5区'},
+                {'id':1036,
+                    'name':'潮6区'}
+            ]
+        }]
+    }];
+
+
+
+
+
+
+
+    $.each(oJson,function(i,v){
+        $("#province").append("<option value='" + v.id + "'>" + v.name+ "</option>");
+    })
+
+    function cityChange(){
+        var pid = $("#province").find('option:selected').val();
+        if(pid!==0){
+            $.each(oJson,function(i,v){
+                if(v.id==pid){
+                    $("#city").empty();
+                    $("#city").append("<option value='0'>请选择市</option>");
+                    $.each(v.child,function(ic,vc){
+                        $("#city").append("<option value='" + vc.id + "'>" + vc.name+ "</option>");
+                    })
+                }
+            })
+        }
+    }
+
+    function disChange(){
+
+        var pid = $("#province").find('option:selected').val();
+        var cid=$("#city").find('option:selected').val();
+
+        if(pid!==0&&cid!==0){
+            $.each(oJson,function(i,v){
+                if(v.id==pid){
+                    $.each(v.child,function(ic,vc){
+                        if(vc.id==cid){
+                            $("#district").empty();
+                            $("#district").append("<option value='0'>请选择区</option>");
+                            $.each(vc.child,function(index,dv){
+                                $("#district").append("<option value='" + dv.id + "'>" + dv.name+ "</option>");
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    }
+
+</script>
+</body>
+</html>
